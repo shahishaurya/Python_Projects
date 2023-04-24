@@ -1,0 +1,11 @@
+import pandas as pd
+import pandas_datareader.data as web
+import datetime
+start = datetime.datetime(2010, 1, 1)
+end = datetime.datetime(2020, 1, 27)
+SP500 = web.DataReader(['sp500'], 'fred', start, end)
+SP500['daily_return'] = (SP500['sp500']/ SP500['sp500'].shift(1)) -1
+SP500.dropna(inplace = True)
+print(SP500)
+SP500['daily_return'].plot(title='S&P 500 daily returns')
+SP500['sp500'].plot(title='S&P 500 Price')
