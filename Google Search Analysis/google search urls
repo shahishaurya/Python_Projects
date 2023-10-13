@@ -1,0 +1,43 @@
+import requests
+from bs4 import BeautifulSoup
+import time
+
+# Replace 'Your_Search_Term' with your actual search term or topic
+search_term = 'Your_Search_Term'
+
+# Define a function to fetch search result URLs with rate limiting and retries
+def get_search_results_with_retry():
+    max_retries = 3
+    retries = 0
+    search_results = []
+
+    while retries < max_retries:
+        try:
+            # Make a Google search
+            google_search_url = f"https://www.google.com/search?q={search_term.replace(' ', '+')}"
+            response = requests.get(google_search_url)
+
+            if response.status_code == 200:
+                # Parse the search results page
+                soup = BeautifulSoup(response.text, 'html.parser')
+                search_results = [a['href'] for a in soup.find_all('a', href=True) if a['href'].startswith("http")]
+
+                return search_results
+            else:
+                print(f"Failed to fetch search results. Status code: {response.status_code}")
+        except Exception as e:
+            print(f"Error: {e}")
+
+        print("Rate limit exceeded. Waiting for a moment...")
+        time.sleep(60)  # Wait for 60 seconds before retrying
+        retries += 1
+
+    print("Max retries reached. Could not fetch data.")
+    return search_results
+
+# Fetch search results with rate limiting and retries
+search_results = get_search_results_with_retry()
+
+if search_results:
+    for i, url in enumerate(search_results[:10]):  # Display the first 10 URLs
+        print(f"{i+1}. {url}")
