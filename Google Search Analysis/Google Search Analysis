@@ -1,0 +1,66 @@
+import pandas as pd
+from pytrends.request import TrendReq
+import time
+import matplotlib.pyplot as plt
+
+print("search_term:")
+search_term = input()
+
+trends = TrendReq()
+trends.build_payload(kw_list=[search_term])
+def get_interest_by_region_with_retry():
+    max_retries = 10
+    retries = 0
+    while retries < max_retries:
+        try:
+            data = trends.interest_by_region()
+            return data
+        except Exception as e:
+            if "429" in str(e):
+                print("Rate limit exceeded. Waiting for a moment...")
+                time.sleep(60)
+                retries += 1
+            else:
+                raise
+    print("Max retries reached. Could not fetch data.")
+    return None
+data = get_interest_by_region_with_retry()
+if data is not None:
+    data = data.sort_values(by=search_term, ascending=False)
+    data = data.head(10)
+    print(data)
+
+data.reset_index().plot(x="geoName", 
+                        y= search_term, 
+                        figsize=(15,12), kind="bar")
+plt.style.use('fivethirtyeight')
+plt.show()
+
+data = TrendReq(hl='en-US', tz=360)
+data.build_payload(kw_list=[search_term])
+def get_interest_over_time_with_retry():
+    max_retries = 10
+    retries = 0
+    fetched_data = None
+    while retries < max_retries:
+        try:
+            fetched_data = data.interest_over_time()
+            return fetched_data
+        except Exception as e:
+            if "429" in str(e):
+                print("Rate limit exceeded. Waiting for a moment...")
+                time.sleep(60)
+                retries += 1
+            else:
+                raise
+    print("Max retries reached. Could not fetch data.")
+    return fetched_data
+data = get_interest_over_time_with_retry()
+if data is not None:
+    fig, ax = plt.subplots(figsize=(15, 12))
+    data[search_term].plot(ax=ax)
+    plt.style.use('fivethirtyeight')
+    plt.title('Total Google Searches for ' + search_term, fontweight='bold')
+    plt.xlabel('Year')
+    plt.ylabel('Total Count')
+    plt.show()
