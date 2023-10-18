@@ -1,0 +1,35 @@
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        a = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+        total = 0
+        i = 0
+        while i < len(s):
+            if i < len(s) - 1 and a[s[i]] < a[s[i + 1]]:
+                total += (a[s[i + 1]] - a[s[i]])
+                i += 2
+            else:
+                total += a[s[i]]
+                i += 1
+        return total
+
+solution = Solution()
+user_input = input("Enter a Roman numeral: ")
+result = solution.romanToInt(user_input)
+print("The integer value of", user_input, "is:", result)
+
+#  ----------------------------------------------------------------------------------------
+
+def romanToInt(self, s: str) ->int:
+    sum = 0        
+    for index, char in enumerate(s):
+        current_num = RomanType[char].value
+        last_num = RomanType[s[index - 1]].value
+        if index != 0 and last_num < current_num:
+            sum += current_num - 2 * last_num
+        else:
+            sum += current_num
+    return sum
+solution = Solution()
+user_input = input("Enter a Roman numeral: ")
+result = solution.romanToInt(user_input)
+print("The integer value of", user_input, "is:", result)
