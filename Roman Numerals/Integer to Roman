@@ -1,0 +1,144 @@
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        roman_mapping = {
+            1000: 'M',
+            900: 'CM',
+            500: 'D',
+            400: 'CD',
+            100: 'C',
+            90: 'XC',
+            50: 'L',
+            40: 'XL',
+            10: 'X',
+            9: 'IX',
+            5: 'V',
+            4: 'IV',
+            1: 'I'
+        }
+        result = ""
+        for value, symbol in roman_mapping.items():
+            while num >= value:
+                result += symbol
+                num -= value
+        return result
+user_input = int(input("Enter an integer: "))
+solution = Solution()
+roman_numeral = solution.intToRoman(user_input)
+print(f"The Roman numeral representation of {user_input} is: {roman_numeral}")
+
+#-----------------------------------------------------------------------------------------------------------------------
+
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        M=["","M","MM","MMM"]
+        C=["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"]
+        X=["","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"]
+        I=["","I","II","III","IV","V","VI","VII","VIII","IX"]
+        return M[num//1000]+C[num%1000//100]+X[num%1000%100//10]+I[num%1000%100%10]
+user_input = int(input("Enter an integer: "))
+solution = Solution()
+roman_numeral = solution.intToRoman(user_input)
+print(f"The Roman numeral representation of {user_input} is: {roman_numeral}")
+
+#------------------------------------------------------------------------------------------------------------------------------
+
+def intToRoman(num: int):
+    roman = {
+        1000: 'M',
+        900: 'CM',
+        500: 'D',
+        400: 'CD',
+        100: 'C',
+        90: 'XC',
+        50: 'L',
+        40: 'XL',
+        10: 'X',
+        9: 'IX',
+        5: 'V',
+        4: 'IV',
+        1: 'I'
+        }
+    romanized = ''
+
+    for base, symb in roman.items():
+        romanized += symb * (num // base)
+        num %= base
+    else:
+        return romanized
+user_input = int(input("Enter an integer: "))
+solution = Solution()
+roman_numeral = solution.intToRoman(user_input)
+print(f"The Roman numeral representation of {user_input} is: {roman_numeral}")
+
+#--------------------------------------------------------------------------------------------------------------------
+
+def intToRoman(self, num: int) -> str:
+    dic = {"M": 1000, "CM": 900, "D": 500, "CD": 400,
+           "C": 100, "XC": 90, "L": 50, "XL": 40, "X": 10,
+           "IX": 9, "V": 5, "IV": 4, "I": 1}
+
+    output = ""
+    for key, value in dic.items():
+        output += key * (num // value)
+        if num // value != 0:
+            num -= (value * (num // value))
+    return output
+user_input = int(input("Enter an integer: "))
+solution = Solution()
+roman_numeral = solution.intToRoman(user_input)
+print(f"The Roman numeral representation of {user_input} is: {roman_numeral}")
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution:
+    def intToRoman(self, n: int) -> str:
+        r = ''
+        while True:
+            print(n)
+            if n - 1000 > -1:
+                r += 'M'
+                n -= 1000
+            elif n - 900 > -1:
+                r += 'CM'
+                n -= 900
+            elif n - 500 > -1:
+                r += 'D'
+                n -= 500
+            elif n - 400 > -1:
+                r += 'CD'
+                n -= 400
+            elif n - 100 > -1:
+                r += 'C'
+                n -= 100
+            elif n - 90 > -1:
+                r += 'XC';
+                n -= 90
+            elif n - 50 > -1:
+                r += 'L'
+                n -= 50
+            elif n - 40 > -1:
+                r += 'XL'
+                n -= 40
+            elif n - 10 > -1:
+                r += 'X'
+                n -= 10
+            elif n - 9 > -1:
+                r += 'IX'
+                n -= 9
+            elif n - 5 > -1:
+                r += 'V'
+                n -= 5
+            elif n - 4 > -1:
+                r += 'IV'
+                n -= 4
+            elif n - 1 > -1:
+                r += 'I'
+                n -= 1
+            else:
+                break
+        return r
+
+user_input = int(input("Enter an integer: "))
+solution = Solution()
+roman_numeral = solution.intToRoman(user_input)
+print(f"The Roman numeral representation of {user_input} is: {roman_numeral}")
